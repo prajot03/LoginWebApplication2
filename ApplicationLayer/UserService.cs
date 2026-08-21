@@ -15,7 +15,7 @@ namespace ApplicationLayer
         public UserService(IUserRepository u,IRolesService roles)
         {
             _userRepository = u;
-            _rolesService = roles;
+            _rolesService = roles; 
         }
        
 
@@ -60,6 +60,7 @@ namespace ApplicationLayer
                  StringComparison.OrdinalIgnoreCase));
 
                     user.Roles.Add(role);
+
                 }
             }
 

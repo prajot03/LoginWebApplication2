@@ -11,7 +11,7 @@ namespace LoginWebApplication2.Controllers
         private IAuthenticateUserService _userService;
 
         public AuthenticationController(IAuthenticateUserService user)
-        {
+        { 
             _userService = user;
         }
 

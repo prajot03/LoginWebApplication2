@@ -12,6 +12,6 @@ namespace DomainLayer
         public string RoleType { get; set; }
         [JsonIgnore]
         public ICollection<User> Users { get; set; } = new List<User>();
-         
+          
     }
 }

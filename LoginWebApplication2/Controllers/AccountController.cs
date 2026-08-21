@@ -19,6 +19,7 @@ namespace LoginWebApplication2.Controllers
 
             var s =await userService.RegisterAsync(userRegister);
 
+
             return Ok(s);
         }
         

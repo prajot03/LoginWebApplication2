@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ApplicationLayer
 {
-    public class AuthenticateUserService : IAuthenticateUserService
+    public class AuthenticateUserService :  IAuthenticateUserService 
     {
         private IUserRepository userRepository;
         private PasswordHasher<User> passwordHasher; 

@@ -13,7 +13,7 @@ namespace ApplicationLayer
         private AppDbContext dbContext;
         public UserRepository(AppDbContext db)
         {
-            dbContext = db;
+            dbContext = db; 
         }
 
         public async Task<ResultResponse<User>> AddAsync(User user)

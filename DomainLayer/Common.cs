@@ -8,7 +8,7 @@ namespace DomainLayer
         {
         User,
         Administrator,
-        Manager
+        Manager 
     }
     
 }

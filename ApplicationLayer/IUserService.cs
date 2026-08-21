@@ -8,6 +8,7 @@ namespace ApplicationLayer
 {
     public interface IUserService
     {
-        Task<ResultResponse<User>> RegisterAsync(UserRegisterDTO userRegister);
+        Task<ResultResponse<User>> RegisterAsync(UserRegisterDTO userRegister); 
+
     }
 }

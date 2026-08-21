@@ -13,7 +13,7 @@ namespace InfrastratureLayer
 
         public AppDbContext(DbContextOptions<AppDbContext> option) : base(option)
         {
-
+             
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

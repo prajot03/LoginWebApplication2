@@ -10,7 +10,7 @@ namespace LoginWebApplication2.Controllers
     {
 
         [HttpPost("AddRole")]
-        public async Task<IActionResult> AddRole(RoleAddRequest request)
+        public async Task<IActionResult> AddRole(RoleAddRequest request) 
         {
 
           var x= await roleService.AddRole(request);

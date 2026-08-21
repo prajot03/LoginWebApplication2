@@ -10,5 +10,5 @@ namespace ApplicationLayer
     {
         Task<ResultResponse<User>>AuthenticateAsync(string  username, string password);
 
-    }
+    } 
 }
