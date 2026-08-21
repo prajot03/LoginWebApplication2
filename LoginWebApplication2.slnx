@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ApplicationLayer/ApplicationLayer.csproj" Id="f6ad1f4f-bd4f-47e3-b29b-a875bbf15980" />
+  <Project Path="DomainLayer/DomainLayer.csproj" Id="a60ac580-c8af-4003-b8ec-66629d87e15c" />
+  <Project Path="InfrastratureLayer/InfrastratureLayer.csproj" Id="b7c8dd11-ff37-49e3-886a-434d74176415" />
+  <Project Path="LoginWebApplication2/LoginWebApplication2.csproj" />
+</Solution>
