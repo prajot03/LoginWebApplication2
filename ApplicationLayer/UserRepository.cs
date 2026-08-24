@@ -51,7 +51,9 @@ namespace ApplicationLayer
         public async Task<ResultResponse<User>> GetUserNameAsync(string username)
         {
             User? s =await dbContext.Users.Where(x => x.UserName == username)
-                .FirstOrDefaultAsync();
+                .Include(u=>u.Roles)
+                .FirstOrDefaultAsync()
+               ;
             if(s != null)
             return ResultResponse<User>.Success(s);
             else

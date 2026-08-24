@@ -1,5 +1,6 @@
 ﻿using ApplicationLayer;
 using ApplicationLayer.DTO;
+using DomainLayer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoginWebApplication2.Controllers
@@ -9,10 +10,17 @@ namespace LoginWebApplication2.Controllers
     public class AuthenticationController : Controller
     {
         private IAuthenticateUserService _userService;
+        private IJwtTokenService _jwtTokenService;
+        private IConfiguration configuration;
+        ILogger<AuthenticationController> logger;
 
-        public AuthenticationController(IAuthenticateUserService user)
+        public AuthenticationController(IAuthenticateUserService user, IJwtTokenService token, IConfiguration config, ILogger<AuthenticationController> log)
         { 
             _userService = user;
+            _jwtTokenService = token;
+            configuration = config;
+            logger = log;
+
         }
 
         [HttpPost("Login")]
@@ -25,7 +33,17 @@ namespace LoginWebApplication2.Controllers
             }
             else
             {
-                return Ok(result.value);
+                var token = _jwtTokenService.GenerateToken(result.value);
+
+                //var response = new TokenResponse
+                //{
+                //    Token = token,
+                //    ExpiresAtUtc = DateTime.UtcNow.AddMinutes(int.Parse(HttpContext.RequestServices
+                //        .GetService<Microsoft.Extensions.Configuration.IConfiguration>()["JwtSettings:DurationMinutes"] ?? "60")),
+                //Roles = result.value.Roles?.Select(r => r.RoleType).ToList()
+                //};
+
+                return Ok(token);
             }
         }
     }
