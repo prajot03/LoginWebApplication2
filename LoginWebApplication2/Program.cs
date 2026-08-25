@@ -1,12 +1,12 @@
 
 using ApplicationLayer;
 using InfrastratureLayer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-using Microsoft.IdentityModel.Tokens;
 
 
 
@@ -17,6 +17,38 @@ namespace LoginWebApplication2
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+            builder.Services.AddOpenApi(options =>
+            {
+                options.AddDocumentTransformer((document, context, cancellationToken) =>
+                {
+                    // 1. Define Bearer authentication
+                    var securityScheme = new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Description = "Enter your JWT token to authenticate requests."
+                    };
+
+                    // 2. Register the Bearer scheme
+                    document.Components ??= new OpenApiComponents();
+                    document.Components.SecuritySchemes ??=
+            new Dictionary<string, IOpenApiSecurityScheme>();
+
+                    document.Components.SecuritySchemes.Add(
+                        "BearerAuth",
+                        securityScheme);
+                    
+
+                    return Task.CompletedTask;
+                });
+            });
+
+
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration
@@ -34,7 +66,7 @@ namespace LoginWebApplication2
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+           // builder.Services.AddOpenApi();
 
             // Configure Authentication / JWT
             var jwtKey = builder.Configuration["JwtSettings:Key"];
@@ -71,7 +103,10 @@ namespace LoginWebApplication2
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
-                app.MapScalarApiReference();
+                app.MapScalarApiReference(options =>
+                {
+                    options.AddPreferredSecuritySchemes("BearerAuth");
+                });
             }
 
             app.UseHttpsRedirection();
