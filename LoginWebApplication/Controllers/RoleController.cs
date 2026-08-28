@@ -25,5 +25,12 @@ namespace LoginWebApplication2.Controllers
                 return Conflict("Role Already Exists");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            var a=await roleService.GetAllRoles();
+            return Ok(a);
+        }
     }
 }
