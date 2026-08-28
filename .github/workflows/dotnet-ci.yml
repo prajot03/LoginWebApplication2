@@ -46,4 +46,12 @@ jobs:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Log in to Azure Container Registry
+        run: az acr login --name prajotloginwebacr
+
+      - name: Build Docker image
+        run: docker build -t prajotloginwebacr.azurecr.io/login-web-api:latest .
+
+      - name: Push Docker image
+        run: docker push prajotloginwebacr.azurecr.io/login-web-api:latest
 
