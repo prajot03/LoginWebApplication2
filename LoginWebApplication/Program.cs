@@ -2,6 +2,7 @@
 using ApplicationLayer;
 using InfrastratureLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -48,11 +49,15 @@ namespace LoginWebApplication2
                 });
             });
 
-
+            var connectionString =
+                 builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(builder.Configuration
-            .GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connectionString));
+
+            Console.WriteLine($"DB Connection: {connectionString}");
+
+           
             // Add services to the container.
             builder.Services.AddScoped<IRolesService, RoleService>();
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -95,21 +100,30 @@ namespace LoginWebApplication2
                 };
             });
 
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor |
+                    ForwardedHeaders.XForwardedProto;
 
+                options.KnownIPNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
 
             var app = builder.Build();
-
+            app.UseForwardedHeaders();
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
+            // if (app.Environment.IsDevelopment())
+            //    {
+            app.MapOpenApi();
                 app.MapScalarApiReference(options =>
                 {
                     options.AddPreferredSecuritySchemes("BearerAuth");
                 });
-            }
+           // }
 
-            app.UseHttpsRedirection();
+            //Disabled for publish
+           // app.UseHttpsRedirection();
 
            
             // Enable authentication and authorization

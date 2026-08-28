@@ -4,7 +4,7 @@ using DomainLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LoginWebApplication.Controllers
+namespace LoginWebApplication2.Controllers
 {
     [Authorize]
     [ApiController]
