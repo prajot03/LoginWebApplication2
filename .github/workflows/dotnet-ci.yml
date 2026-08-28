@@ -38,8 +38,7 @@ jobs:
       - name: Test
         run: dotnet test LoginWebApplication.slnx --no-build --configuration Release
             
-      - name: Build Docker image
-        run: docker build -t login-web-api:latest .
+    
       - name: Azure Login
         uses: azure/login@v2
         with:
