@@ -31,3 +31,6 @@ jobs:
 
       - name: Test
         run: dotnet test LoginWebApplication.slnx --no-build --configuration Release
+            
+      - name: Build Docker image
+        run: docker build -t login-web-api:latest .
