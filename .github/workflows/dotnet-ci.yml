@@ -49,15 +49,15 @@ jobs:
         run: az acr login --name prajotloginwebacr
 
       - name: Build Docker image
-        run: docker build -t prajotloginwebacr.azurecr.io/login-web-api:latest .
+        run: docker build -t prajotloginwebacr.azurecr.io/login-web-api:latest .${{ github.sha }} .
 
       - name: Push Docker image
-        run: docker push prajotloginwebacr.azurecr.io/login-web-api:latest
+        run: docker push prajotloginwebacr.azurecr.io/login-web-api:${{ github.sha }}
 
       - name: Deploy to Azure Container App
         run: |
           az containerapp update \
             --name login-web-api-container \
             --resource-group PrajotRG \
-            --image prajotloginwebacr.azurecr.io/login-web-api:latest
+            --image prajotloginwebacr.azurecr.io/login-web-api:${{ github.sha }}
 
