@@ -54,3 +54,10 @@ jobs:
       - name: Push Docker image
         run: docker push prajotloginwebacr.azurecr.io/login-web-api:latest
 
+      - name: Deploy to Azure Container App
+        run: |
+          az containerapp update \
+            --name login-web-api-container \
+            --resource-group PrajotRG \
+            --image prajotloginwebacr.azurecr.io/login-web-api:latest
+
