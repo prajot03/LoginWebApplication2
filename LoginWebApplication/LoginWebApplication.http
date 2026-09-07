@@ -1,6 +1,76 @@
-@LoginWebApplication2_HostAddress = http://localhost:5169
+@HostAddress = http://localhost:5169
+@AuthToken = YOUR_JWT_TOKEN_HERE
 
-GET {{LoginWebApplication2_HostAddress}}/weatherforecast/
-Accept: application/json
+### 1. Add Admin Role
+POST {{HostAddress}}/api/Role/AddRole
+Content-Type: application/json
 
-###
+{
+  "roleName": "ADMIN"
+}
+
+### 2. Add User Role
+POST {{HostAddress}}/api/Role/AddRole
+Content-Type: application/json
+
+{
+  "roleName": "USER"
+}
+
+### 3. Get All Roles
+GET {{HostAddress}}/api/Role
+
+### 4. Register Admin User
+POST {{HostAddress}}/api/Account/Register
+Content-Type: application/json
+
+{
+  "userName": "admin_user",
+  "password": "AdminPassword123!",
+  "roles": [
+    "ADMIN"
+  ]
+}
+
+### 5. Login to Get JWT Token
+POST {{HostAddress}}/api/Authentication/Login
+Content-Type: application/json
+
+{
+  "username": "admin_user",
+  "password": "AdminPassword123!"
+}
+
+### 6. Add Categories (Requires Bearer Token with ADMIN role)
+POST {{HostAddress}}/api/Category/Add_Category
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+[
+  {
+    "categoryName": "Electronics"
+  },
+  {
+    "categoryName": "Home Appliances"
+  }
+]
+
+### 7. Get All Categories
+GET {{HostAddress}}/api/Category/Get_Category
+Authorization: Bearer {{AuthToken}}
+
+### 8. Add Product (Requires Bearer Token)
+POST {{HostAddress}}/api/Product/Add%20Product
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "productName": "Wireless Headphones",
+  "categoryId": 1,
+  "price": 149.99,
+  "quantity": 50
+}
+
+### 9. Get All Products
+GET {{HostAddress}}/api/Product/Get_All_Products
+Authorization: Bearer {{AuthToken}}
